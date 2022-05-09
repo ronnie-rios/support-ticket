@@ -12,4 +12,8 @@ app.get('/', (req, res) => {
     })
 })
 
+const userController = require('./routes/userRoutes')
+app.use('/api/users', userController)
+
+
 app.listen(PORT, () => console.log(`server running on ${PORT}`))
