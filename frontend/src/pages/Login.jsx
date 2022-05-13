@@ -1,5 +1,8 @@
 import { useState } from 'react'
 import { FaSignInAlt } from 'react-icons/fa'
+import { useSelector, useDispatch } from 'react-redux'
+import { login } from '../features/auth/authSlice'
+
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -11,6 +14,15 @@ function Login() {
 
   const {  email, password } = formData
 
+  //intiializing state
+  const dispatch = useDispatch()
+
+  //bring in state, and then change it to the state.auth
+  //brings it from the global state
+  const { user, isLoading, isSuccess, message } = 
+    useSelector(
+      (state) => state.auth)
+
   const onChange = (e) => {
     setFormData((prev) =>({
       ...prev,
@@ -19,8 +31,13 @@ function Login() {
   }
 
   const onSubmit = (e) => {
-    e.preventDefault() 
-    
+    e.preventDefault()
+    //getting the local state
+    const userData = {
+      email,
+      password
+    }
+    dispatch(login(userData))
   }
   return (
     <>
