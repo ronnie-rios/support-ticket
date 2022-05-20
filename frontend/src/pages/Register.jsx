@@ -20,13 +20,12 @@ function Register() {
   //bring in state, and then change it to the state.auth
   //brings it from the global state
   const { user, isLoading, isSuccess, message } = 
-    useSelector(
-      (state) => state.auth)
+    useSelector((state) => state.auth)
 
   const onChange = (e) => {
-    setFormData((prev) =>({
-      ...prev,
-      [e.target.name]: e.target.value
+    setFormData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
     }))
   }
 
@@ -68,9 +67,9 @@ function Register() {
           </div>
           <div className="form-group">
             <input 
-              type="text" 
+              type="email" 
               className="form-control"
-              id="name"
+              id="email"
               name={email}
               value={email}
               onChange={onChange}
@@ -80,9 +79,9 @@ function Register() {
           </div>
           <div className="form-group">
             <input 
-              type="text" 
+              type="password" 
               className="form-control"
-              id="name"
+              id="password"
               name={password}
               value={password}
               onChange={onChange}
@@ -92,9 +91,9 @@ function Register() {
           </div>
           <div className="form-group">
             <input 
-              type="text" 
+              type="password" 
               className="form-control"
-              id="name"
+              id="password2"
               name={password2}
               value={password2}
               onChange={onChange}

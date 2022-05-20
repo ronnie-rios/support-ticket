@@ -24,7 +24,7 @@ function Login() {
       (state) => state.auth)
 
   const onChange = (e) => {
-    setFormData((prev) =>({
+    setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value
     }))
@@ -51,9 +51,9 @@ function Login() {
         <form onSubmit={onSubmit}>
           <div className="form-group">
             <input 
-              type="text" 
+              type="email" 
               className="form-control"
-              id="name"
+              id="email"
               name={email}
               value={email}
               onChange={onChange}
@@ -63,9 +63,9 @@ function Login() {
           </div>
           <div className="form-group">
             <input 
-              type="text" 
+              type="password" 
               className="form-control"
-              id="name"
+              id="password"
               name={password}
               value={password}
               onChange={onChange}
