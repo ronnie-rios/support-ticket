@@ -54,7 +54,7 @@ function Login() {
               type="email" 
               className="form-control"
               id="email"
-              name={email}
+              name='email'
               value={email}
               onChange={onChange}
               placeholder='Please enter your email'
@@ -66,7 +66,7 @@ function Login() {
               type="password" 
               className="form-control"
               id="password"
-              name={password}
+              name='password'
               value={password}
               onChange={onChange}
               placeholder='Please enter your password'
