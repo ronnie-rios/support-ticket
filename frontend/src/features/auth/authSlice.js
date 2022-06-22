@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-
+import authService from './authService'
 const initialState = {
     user: null,
     isError: false,
@@ -9,11 +9,19 @@ const initialState = {
 }
 
 //async thunk, to user async data from redux toolkit
-//register new user
+//register new user; gets imported into register component
 export const register = createAsyncThunk(
     'auth/register', 
     async (user, thunkApi) => {
-    console.log(user)
+    try {
+        return await authService.register(user)
+    } catch (error) {
+        //get msg from backend
+        const message = (error.response && error.response.data && error.response.data.message)
+        || error.message || error.toString()
+        //check where error is in BE, use thinkApi method to reject w/ msg
+        return thunkApi.rejectWithValue(message)
+    }
 })
 
 export const login = createAsyncThunk(
@@ -25,10 +33,41 @@ export const login = createAsyncThunk(
 export const authSlice = createSlice({
     name:'auth',
     initialState,
-    reducers: {},
+    reducers: {
+        //resetting the state
+        reset: (state) => {
+            state.isLoading = false
+            state.isError = false
+            state.isSuccess = false
+            state.message = ''
+        }
+    },
+    //
     extraReducers: (builder) => {
-        //how to change state?
+       //in redux, there is pending, fufilled etc.
+       //builder has its own methods, .addCase and checks the register func 
+        builder
+            .addCase(register.pending, (state) => {
+                //when its pending, going to set it to loading
+                state.isLoading = true
+            })
+            //when the promise is fulfilled, grab the state and action
+            .addCase(register.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                //sets the user state to the request payload
+                state.user = action.payload
+            })
+            .addCase(register.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                //set msg from rejected block in register func from that rejected value from redux
+                state.message = action.payload
+                //sets the user state to null because bad req
+                state.user = null
+            })
     }
 })
-
+//export the rest to initial state from line38
+export const { reset } = authSlice.actions
 export default authSlice.reducer
