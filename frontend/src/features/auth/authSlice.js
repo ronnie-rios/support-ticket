@@ -31,7 +31,15 @@ export const register = createAsyncThunk(
 //login
 export const login = createAsyncThunk('auth/login', 
     async (user, thunkApi) => {
-    console.log(user)
+    try {
+        return await authService.register(user)
+    } catch (error) {
+        //get msg from backend
+        const message = (error.response && error.response.data && error.response.data.message)
+        || error.message || error.toString()
+        //check where error is in BE, use thinkApi method to reject w/ msg
+        return thunkApi.rejectWithValue(message)
+    }
 })
 //logout
 export const logout = createAsyncThunk('auth/logout', async () => {
