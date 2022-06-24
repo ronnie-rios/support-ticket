@@ -73,6 +73,10 @@ export const authSlice = createSlice({
                 //sets the user state to null because bad req
                 state.user = null
             })
+            //when logout fulfilled resets the state for user null
+            .addCase(logout.fulfilled, (state) => {
+                state.user = null
+            })
     }
 })
 //export the rest to initial state from line38
