@@ -29,11 +29,12 @@ export const register = createAsyncThunk(
     }
 })
 //login
-export const login = createAsyncThunk('auth/login', async (user, thunkApi) => {
+export const login = createAsyncThunk('auth/login', 
+    async (user, thunkApi) => {
     console.log(user)
 })
 //logout
-export const logout = createAsyncThunk('auth/logout', () => {
+export const logout = createAsyncThunk('auth/logout', async () => {
     await authService.logout()
 })
 
