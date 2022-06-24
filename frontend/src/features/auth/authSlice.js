@@ -82,6 +82,25 @@ export const authSlice = createSlice({
                 //sets the user state to null because bad req
                 state.user = null
             })
+            .addCase(login.pending, (state) => {
+                //when its pending, going to set it to loading
+                state.isLoading = true
+            })
+            //when the promise is fulfilled, grab the state and action
+            .addCase(login.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                //sets the user state to the request payload
+                state.user = action.payload
+            })
+            .addCase(login.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                //set msg from rejected block in login func from that rejected value from redux
+                state.message = action.payload
+                //sets the user state to null because bad req
+                state.user = null
+            })
             //when logout fulfilled resets the state for user null
             .addCase(logout.fulfilled, (state) => {
                 state.user = null
